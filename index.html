@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Web Services and Symfony Core Initiative</title>
+    <title>Functional PHP</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <!-- jQuery + history plugin -->
@@ -22,9 +22,10 @@
 
     <!-- Syntax highlighting core file  -->
     <script type="text/javascript" src="src/highlighter/shCore.js"></script>
-    <script type="text/javascript" src="src/highlighter/shBrushPhp.js"></script>
 
     <!-- Syntax highlighting brushes, this one is only for javascript -->
+    <script type="text/javascript" src="src/highlighter/shBrushPhp.js"></script>
+    <script type="text/javascript" src="src/highlighter/shBrushPlain.js"></script>
     <script type="text/javascript" src="src/highlighter/shBrushJScript.js"></script>
 
     <!-- Syntax highlighting core CSS and a theme -->
@@ -34,7 +35,7 @@
     <script type="text/javascript">
       $(function() {
           $(".slide").slippy({
-            //animLen: 0,
+            animLen: 0,
             margin: 0.05
           });
           SyntaxHighlighter.all();
@@ -84,6 +85,196 @@
   <img style="position: absolute; top: 120px; left: -10px;" class="incremental" src="images/sites/opensource-1.jpg" />
   <img style="position: absolute; top: 150px; left: 20px;" class="incremental" src="images/sites/marketplace-1.jpg" />
 </section>
+
+
+<div style="display:none">
+Functional Programming
+
+    Warning: Hard core nerd action. Please bear with me.
+    History
+        Von Neumann Architecture
+            Imperative programming (and Procedural)
+        Jon Bakus
+            FORTRAN
+            1977 paper
+    Concepts (Jr version)
+        Algorithm First
+            Baking a cake
+        First-class function: Functions can be a variable
+        Higher-order function: Function that operates on a Function
+        Immutability
+        No side-effects
+    Benefits of Functional Thinking
+        Algorithm, not Recipe
+        Immutability == Testability
+        Stateless == Fewer variables to keep track of
+    Drawbacks
+        State is useful!
+        Algorithms are complicated
+    PHP 5.3 Closures
+        Describe PHP Anonymous functions / Closures
+        __invoke()
+    Stateless Programming
+        Impossible in PHP/Drupal. But separate I/O from logic.
+    Anonymous Functions as Callbacks
+    Map (array_map())
+    Filtering (array_filter())
+    Reducing (array_reduce())
+    Currying
+        Haskell Curry (name means nothing!)
+        Partial implementation of a function
+</div>
+
+<section class="slide">
+  <div class="vcenter">
+    <h1>Warning, hard core geek action</h1>
+    <h2>Please pardon the nerd</h2>
+  </div>
+  Picture: something nerdy? Steal from Webchick.
+</section>
+
+<section class="slide" data-background="images/drupal-delorean.jpg" data-credit="http://webchick.net/drupal-8-slides">
+  <h1 style="position: absolute; bottom: 1em; left: 3em; color: White;">But first, a little history...</h1>
+</section>
+
+<section class="slide">
+  <h1>Von Neumann Architecture</h1>
+  <div style="width: 50%; float: right; border: 1px;">
+    <img style="max-width: 80%; max-height: 80%;" src="images/john-von-neumann.gif" data-credit="http://en.wikipedia.org/wiki/File:JohnvonNeumann-LosAlamos.gif" />
+  </div>
+
+  <ul>
+    <li><a href="http://en.wikipedia.org/wiki/John_von_Neumann">John Von Neumann</a>, 1903-1957</li>
+    <li class="incremental">Mathematician, Physicist, all-around genius</li>
+    <li class="incremental">Set theory, Operator theory, quantum theory, nuclear physics...</li>
+    <li class="incremental">One of those ridiculously smart people who don't get enough credit for how much they change the world.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h1>Von Neumann Architecture</h1>
+  <div style="text-align: center;"><img src="images/Computer_system_bus.svg" alt="Computer system bus" data-credit="http://en.wikipedia.org/wiki/File:Computer_system_bus.svg" /></div>
+</section>
+
+<section class="slide">
+  <h1>Von Neumann Architecture</h1>
+  <ol>
+    <li class="incremental">A program is just data</li>
+    <li class="incremental">A program is a series of steps</li>
+    <li class="incremental">Steps execute in linear sequence</li>
+    <li class="incremental">Steps can alter the next step</li>
+    <li class="incremental">Modify memory registers ad infinitium</li>
+  </ol>
+
+  <h2 class="incremental" style="margin-top: 2em;">"Stored Program" concept</h2>
+</section>
+
+<section class="slide">
+  <h1>Von Neumann Architecture</h1>
+  <div>Some graphic here for instructions executing</div>
+</section>
+
+<section class="slide">
+  <h1>Imperative Programming</h1>
+  <ul>
+    <li class="incremental">Imperative "mood"</li>
+    <li class="incremental">Series of precise commands</li>
+    <li class="incremental">"State": values that get changed over time by commands</li>
+    <li class="incremental">The purpose of commands is to alterstate</li>
+    <li class="incremental" style="margin-top: 2em;">This is what all modern hardware does</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <div class="vcenter">
+    <h2>Imperative Programming is following a recipe for a cake</h2>
+  </div>
+</section>
+
+<section class="slide">
+  <h1>Procedural Programming</h1>
+  <ul>
+    <li class="incremental">Imperative Programming: Evolved</li>
+    <li class="incremental">Procedure = subroutine = reusable series of commands</li>
+    <li class="incremental">Structured Programming: High-level abstractions
+      <ul>
+        <li><code>if-then</code></li>
+        <li><code>while</code></li>
+        <li><code>for</code></li>
+      </ul>
+    </li>
+  </ul>
+
+  <div class="incremental">
+    <pre class="brush:plain">
+    Var MyList [5, 7, 2, 9, 2]
+    Var Biggest
+    Procedure FindBiggest
+      For MyList As Item
+        If Item > Biggest Then
+          Biggest = Item
+        End If
+      End For
+      Return
+    End Procedure
+
+    Call FindBiggest
+    Print Biggest
+    </pre>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="vcenter">
+    <h2>Imperative Programming is following a recipe for a cake</h2>
+    <br />
+    <h2>Procedural Programming is singing a song with a refrain</h2>
+  </div>
+</section>
+
+<section class="slide">
+  <h1 class="vcenter">Imperative Programming defines <br /><em>how</em> a program should work.</h1>
+</section>
+
+<section class="slide">
+  <h1 class="vcenter">Declarative Programming</h1>
+</section>
+
+<section class="slide">
+  <h1 class="vcenter">Declarative Programming defines <br /><em>what</em> a program should accomplish.</h1>
+</section>
+
+<section class="slide">
+  <h1>John Backus</h1>
+  <div style="width: 50%; float: right; border: 1px;">
+    <img style="max-width: 80%; max-height: 80%;" src="images/john-backus" data-credit="http://en.wikipedia.org/wiki/File:John_Backus.jpg" />
+  </div>
+
+  <ul>
+    <li><a href="http://en.wikipedia.org/wiki/John_Backus">John Backus</a>, 1924-2007</li>
+    <li class="incremental">Invented FORTRAN, 1953</li>
+    <li class="incremental">As penance...
+      <ul>
+        <li class="incremental">Developed Bakus-Naur Form (BNF)</li>
+        <li class="incremental">Co-developed Algol</li>
+        <li class="incremental">Function-level Programming (FP), 1977</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+
+
+
+
+<section class="slide">
+  <h1>Title</h1>
+  <ul>
+    <li class="incremental"></li>
+    <li class="incremental"></li>
+  </ul>
+</section>
+
 
 <section class="slide">
   <h1>Title</h1>
