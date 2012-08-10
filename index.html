@@ -180,7 +180,7 @@ Functional Programming
     <li class="incremental">Imperative "mood"</li>
     <li class="incremental">Series of precise commands</li>
     <li class="incremental">"State": values that get changed over time by commands</li>
-    <li class="incremental">The purpose of commands is to alterstate</li>
+    <li class="incremental">The purpose of commands is to alter state</li>
     <li class="incremental" style="margin-top: 2em;">This is what all modern hardware does</li>
   </ul>
 </section>
@@ -255,38 +255,416 @@ Functional Programming
     <li class="incremental">Invented FORTRAN, 1953</li>
     <li class="incremental">As penance...
       <ul>
-        <li class="incremental">Developed Bakus-Naur Form (BNF)</li>
+        <li class="incremental">Developed Backus-Naur Form (BNF)</li>
         <li class="incremental">Co-developed Algol</li>
         <li class="incremental">Function-level Programming (FP), 1977</li>
       </ul>
     </li>
   </ul>
+  <p style="clear: both;" class="incremental">"Can Programming Be Liberated From the von Neumann Style? A Functional Style and its Algebra of Programs"</p>
 </section>
 
-
-
-
+<section class="slide">
+  <h1>Functional Programming</h1>
+  <h2 class="vcenter">Algorithm-first</h2>
+</section>
 
 <section class="slide">
-  <h1>Title</h1>
+  <h1>Functional Programming</h1>
+  <div class="vcenter">
+    <h2>Declare your algorithm</h2>
+    <h2 style="margin-top: 2em;">The compiler optimizes for you</h2>
+    <h2 style="margin-top: 2em;">"Functions" in the mathematical sense</h2>
+  </div>
+</section>
+
+<section class="slide">
+  <h1>Functional Programming</h1>
   <ul>
-    <li class="incremental"></li>
-    <li class="incremental"></li>
+    <li class="incremental">Pure functions</li>
+    <li class="incremental">Higher-order functions / First-class functions</li>
+    <li class="incremental">Recursion</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h1>Pure functions</h1>
+  <ul>
+    <li class="incremental">No side-effects (including I/O)</li>
+    <li class="incremental">Explicit function input/output</li>
+    <li class="incremental">Stateless</li>
+  </ul>
+  <p>Example of pure function in PHP</p>
+</section>
+
+<section class="slide">
+  <h1>Benefits</h1>
+  <ul>
+    <li class="incremental">Easy testability</li>
+    <li class="incremental">Thread-safe</li>
+    <li class="incremental">Self-evident</li>
+    <li class="incremental">Memoizable</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h1>First-class functions</h1>
+  <ul>
+    <li class="incremental">Functions can be a variable</li>
+    <li class="incremental">Functions can be a parameter</li>
+    <li class="incremental">Functions can be a return type</li>
+  </ul>
+  <p>Example of first class anon function in PHP.</p>
+</section>
+
+<section class="slide">
+  <h1>Benefits</h1>
+  <ul>
+    <li class="incremental">Strategy pattern</li>
+    <li class="incremental">Partial evaluation / Currying</li>
+    <li class="incremental">Lazy-evaluation</li>
   </ul>
 </section>
 
 
 <section class="slide">
-  <h1>Title</h1>
+  <h1>Recursion</h1>
   <ul>
-    <li class="incremental"></li>
-    <li class="incremental"></li>
+    <li class="incremental">"To understand recursion you must first understand recursion."</li>
+    <li class="incremental">Function that calls itself</li>
+    <li class="incremental">Can replace loops</li>
+  </ul>
+  <p>Example of recursive function in PHP.</p>
+</section>
+
+<section class="slide">
+  <h1>Benefits</h1>
+  <ul>
+    <li class="incremental">Divide-and-conquer</li>
+    <li class="incremental">Stateless</li>
   </ul>
 </section>
+
+<section class="slide">
+  <h1>Put it all together</h1>
+  <p>Fibonacci sequence in PHP</p>
+</section>
+
+<section class="slide">
+  <h1>Strictly functional languages</h1>
+  <ul>
+    <li class="incremental">ML</li>
+    <li class="incremental">Haskell</li>
+    <li class="incremental">Erlang</li>
+    <li class="incremental">Many others...</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h1>Functional PHP</h1>
+  <div class="vcenter">
+    <h2>PHP lets you do all of that</h2>
+    <h2 class="incremental" style="margin-top: 1em;">It just doesn't enforce it</h2>
+    <h2 class="incremental" style="margin-top: 1em;">You can. You have the technology...</h2>
+  </div>
+</section>
+
+<section class="slide">
+  <h1 class="vcenter"><code>&lt;troll></code>PHP is as functional as LISP<code>&lt;/troll></code></h1>
+</section>
+
+
+<section class="slide">
+  <h1>Anonymous functions</h1>
+  <pre class="brush:php">
+$find_pair = function ($card1, $card2) {
+  return ($card1 == $card2);
+};
+
+$is_pair = $find_pair('2H', '8D');
+  </pre>
+
+  <div class="incremental">
+    <div style="text-align: center;">==</div>
+    <pre class="brush:php">
+class FindPair {
+  public function __invoke($card1, $card2) {
+    return ($card1 == $card2);
+  }
+}
+
+$find_pair = new FindPair();
+$is_pair = $find_pair('2H', '8D');
+    </pre>
+  </div>
+</section>
+
+
+<section class="slide">
+  <h1>Closures</h1>
+  <pre class="brush:php">
+$wild = '5H';
+$find_pair = function ($card1, $card2) use ($wild) {
+  return ($card1 == $card2 || $wild == $card1 || $wild == $card2);
+};
+
+$is_pair = $find_pair('2H', '8D');
+  </pre>
+
+  <div class="incremental">
+    <div style="text-align: center;">==</div>
+    <pre class="brush:php">
+$wild = '5H';
+class FindPair {
+  protected $wild;
+
+  public function __construct($wild) {
+    $this->wild = $wild;
+  }
+
+  public function __invoke($card1, $card2) {
+    return ($card1 == $card2
+            || $this->wild == $card1
+            || $this->wild == $card2);
+  }
+}
+
+$find_pair = new FindPair($wild);
+$is_pair = $find_pair('2H', '8D');
+
+    </pre>
+  </div>
+</section>
+
+
+<section class="slide">
+  <h1>Delayed execution</h1>
+  <pre class="brush:php">
+
+class Container {
+  protected $factories = array();
+
+  public function __set($key, $func) {
+    $this->factories[$key] = $func;
+  }
+
+  public function __get($key) {
+    return $this->factories[$key]($this);
+  }
+}
+  </pre>
+
+  <div class="incremental">
+    <pre class="brush:php">
+$container = new Container();
+$container->conn = function($c) {
+  return new DatabaseConnection($c->conn_info);
+};
+$container->conn_info = array('user' => 'me', 'pass' => 'hi');
+
+$conn = $container->conn;
+$conn->query('...');
+
+    </pre>
+  </div>
+
+  <h2 class="incremental">Hey, look, a Dependency Injection Container!</h2>
+
+  <div style="text-align: center; margin-top: 2em;" class="incremental">See also: <a href="http://pimple.sensiolabs.org/">Pimple</a></div>
+</section>
+
+
+<section class="slide">
+  <h1>Lexical scoping</h1>
+  <h3>Lame...</h3>
+  <pre class="brush:php">
+function double($a) {
+  return $a * 2;
+}
+function something_important(array $arr) {
+  $arr = array_map('double', $arr);
+  // ...
+}
+  </pre>
+
+  <div class="incremental">
+    <h3>Worse...</h3>
+    <pre class="brush:php">
+function multiply($a) {
+  return $a * $GLOBALS['factor'];
+}
+function something_important(array $arr, $factor) {
+  $GLOBALS['factor'] = $factor;
+  $arr = array_map('multiply', $arr);
+  // ...
+}
+    </pre>
+  </div>
+
+  <div class="incremental">
+    <h3>Slick...</h3>
+    <pre class="brush:php">
+function something_important(array $arr, $factor) {
+  $arr = array_map(function ($a) use ($factor) {
+    return $a * $factor;
+  }, $arr);
+  // ...
+}
+    </pre>
+  </div>
+
+  <div style="text-align: center; margin-top: 1em;" class="incremental">Especially useful for <code>preg_replace_callback()</code></div>
+</section>
+
+<section class="slide" data-background="images/curry-food.jpg" data-credit="http://www.flickr.com/photos/hermitsmoores/4617145189">
+  <h1 class="vcenter">Currying</h1>
+</section>
+
+
+
+<section class="slide">
+  <h1>Haskell Curry</h1>
+  <div style="text-align: center;">
+    <img src="images/haskell-curry.jpg" alt="Haskell B. Curry" data-credit="http://www.haskell.org/haskellwiki/Haskell_Brooks_Curry" />
+    <h3>1900 - 1982</h3>
+    <h2><a href="http://en.wikipedia.org/wiki/Haskell_Curry">Yet another</a> crazy smart mathematician</h2>
+  </div>
+</section>
+
+
+<section class="slide">
+  <h1>Currying</h1>
+  <div class="vcenter">
+    <h2>Splitting a multi-parameter function<br />into multiple single-parameter functions</h2>
+    <h2 style="margin-top: 2em;">A special case of partial-application</h2>
+  </div>
+</section>
+
+
+<section class="slide">
+  <h1>Partial-application</h1>
+  <pre class="brush:php">
+$add = function ($a, $b) {
+  return $a + $b;
+};
+  </pre>
+
+  <div class="incremental">
+    <pre class="brush:php">
+$add = function ($a) {
+  return function($b) use ($a) {
+    return $a + $b;
+  };
+};
+
+$add1 = $add(1);
+$add5 = $add(5);
+
+$x = $add5($y);
+    </pre>
+  </div>
+
+  <div class="incremental">
+    <pre class="brush:php">
+$add = function ($a) {
+  return function($b) use ($a) {
+    return $a + $b;
+  };
+};
+
+$adder = $add(variable_get('increment_amount'));
+$x = $adder($y);
+    </pre>
+  </div>
+</section>
+
+
+<section class="slide">
+  <h1>Partial-application</h1>
+  <pre class="brush:php">
+$add = function ($a) {
+  return function($b) use ($a) {
+    return $a + $b;
+  };
+};
+
+$adder = $add(variable_get('increment_amount'));
+
+$values = array_map($adder, $array);
+  </pre>
+</section>
+
+
+<section class="slide">
+  <h1>Memoization</h1>
+  <pre class="brush:php">
+$factorial = function($a) use (&$factorial)  {
+  print "Called function with $a" . PHP_EOL;
+  if ($a == 1) {
+    return 1;
+  }
+  return $a * $factorial($a - 1);
+};
+
+print "Result: " . $factorial(3) . PHP_EOL;
+print "Result: " . $factorial(4) . PHP_EOL;
+  </pre>
+
+  <div class="incremental">
+    <pre class="brush:php">
+Called function with 3
+Called function with 2
+Called function with 1
+Result: 6
+Called function with 4
+Called function with 3
+Called function with 2
+Called function with 1
+Result: 24
+    </pre>
+  </div>
+</section>
+
+
+<section class="slide">
+  <h1>Memoization</h1>
+  <pre class="brush:php">
+function memoize($function) {
+  return function() use ($function) {
+    static $results = array();
+    $args = func_get_args();
+    $key = serialize($args);
+    if (empty($results[$key])) {
+      $results[$key] = call_user_func_array($function, $args);
+    }
+    return $results[$key];
+  };
+}
+
+$factorial = memoize($factorial);
+
+print "Result: " . $factorial(3) . PHP_EOL;
+print "Result: " . $factorial(4) . PHP_EOL;
+  </pre>
+
+  <div class="incremental">
+    <pre class="brush:php">
+Called function with 3
+Called function with 2
+Called function with 1
+Result: 6
+Called function with 4
+Result: 24
+    </pre>
+  </div>
+</section>
+
+
 
 <section class="slide">
   <h1>Title</h1>
   <div style="text-align: center;"><img src="images/blocks-drupal-7.svg" alt="Blocks in Drupal 7" /></div>
+
 </section>
 
 <section class="slide">
