@@ -672,26 +672,125 @@ Result: 24
 </section>
 
 <section class="slide">
-  <h1 class="vcenter">Map/Reduce</h1>
+  <h1 class="vcenter">The Functional Way(tm)</h1>
 </section>
 
 <section class="slide">
   <h1>Map/Reduce</h1>
   <ul>
-    <li class="incremental"></li>
-    <li class="incremental"></li>
-    <li class="incremental"></li>
-    <li class="incremental"></li>
+    <li class="incremental">"Embarrassingly Parallel" Problems</li>
+    <li class="incremental">Map
+      <ol>
+        <li>Divide a problem into (identical) sub-problems</li>
+        <li>Distribute to separate workers</li>
+      </ol>
+    </li>
+    <li class="incremental">Reduce
+      <ol>
+        <li>Collect answers</li>
+        <li>Combine back together</li>
+      </ol>
+    </li>
+    <li class="incremental">Really useful for epically huge data sets</li>
   </ul>
 </section>
 
+<section class="slide">
+  <h1>Map/Reduce</h1>
+  <ul>
+    <li class="incremental">Could get very complicated, or...</li>
 
+    <li class="incremental" style="list-style-type: none;">
+      <pre class="brush:php">
+      $result = array_map($callback, $array);
+
+      $result = array_map(function($a) {
+        // Your logic here.
+      }, $array);
+
+      $result = array_map(function($a, $b) {
+        // Your logic here.
+      }, $array1, $array2);
+      </pre>
+    </li>
+    <li class="incremental"><code>foreach()</code>, but separates application from loop</li>
+    <li class="incremental">Slightly slower, but not enough to care</li>
+  </ul>
+</section>
 
 <section class="slide">
-  <h1>Title</h1>
-  <div style="text-align: center;"><img src="images/blocks-drupal-7.svg" alt="Blocks in Drupal 7" /></div>
+  <h1>Fold</h1>
+  <ul>
+    <li class="incremental">"Analyze a recursive data structure and recombine
+      through use of a given combining operation the results of recursively
+      processing its constituent parts, building up a return value." <address>--Wikipedia</address></li>
+    <li class="incremental">Iterate over a list and turn it into a single result</li>
 
+    <li class="incremental" style="list-style-type: none;">
+      <pre class="brush:php">
+      $sum = sum([1, 2, 3, 4, 5]);
+      </pre>
+    </li>
+    <li class="incremental" style="list-style-type: none;">
+      <pre class="brush:php">
+      foreach ($array as $element) {
+        $result = sum($result, $element);
+      }
+      </pre>
+    </li>
+    <li class="incremental" style="list-style-type: none;">
+      <pre class="brush:php">
+      array_reduce($function, $array);
+
+      $initial = array_shift($array);
+      array_reduce($array, function ($result, $item) {
+        return $result + $item;
+      }, $initial);
+      </pre>
+    </li>
+  </ul>
 </section>
+
+<section class="slide">
+  <h1>Filter</h1>
+  <ul>
+    <li class="incremental">Reduce a dataset to relevant elements</li>
+    <li class="incremental">Similar to Map (apply process to set in parallel)</li>
+
+    <li class="incremental" style="list-style-type: none;">
+      <pre class="brush:php">
+      $result = array_filter($array, $filter_function);
+      </pre>
+    </li>
+    <li class="incremental" style="list-style-type: none;">
+      <pre class="brush:php">
+      $array = [1, 2, 3, 4, 5, 6, 7];
+      $result = array_filter($array, function ($val) {
+        // Only odd numbers.
+        return ($var & 1);
+      });
+      </pre>
+    </li>
+    <li class="incremental" style="list-style-type: none;">
+      <pre class="brush:php">
+      $array = [0, 4, -4, 'foo', FALSE, NULL];
+      $result = array_filter($array);
+      // [4, -4, 'foo']
+      </pre>
+    </li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h1>The take aways...</h1>
+  <ul>
+    <li class="incremental">Pure functions are awesome... most of the time</li>
+    <li class="incremental">Separate purity from impurity</li>
+    <li class="incremental">Anonymous functions rock. Don't let anyone tell you different.</li>
+    <li class="incremental">Think in logic, not state.</li>
+  </ul>
+</section>
+
 
 <section class="slide">
   <h1 class="vcenter">Title</h1>
