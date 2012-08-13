@@ -227,8 +227,7 @@ Functional Programming
 <section class="slide">
   <div class="vcenter">
     <h2>Imperative Programming is following a recipe for a cake</h2>
-    <br />
-    <h2>Procedural Programming is singing a song with a refrain</h2>
+    <h2 style="margin-top: 1em;">Procedural Programming is singing a song with a refrain</h2>
   </div>
 </section>
 
@@ -294,7 +293,18 @@ Functional Programming
     <li class="incremental">Explicit function input/output</li>
     <li class="incremental">Stateless</li>
   </ul>
-  <p>Example of pure function in PHP</p>
+
+  <div class="incremental">
+    <pre class="brush:php">
+      function theme_list($items, $type = 'ul') {
+        $output = '';
+        foreach ($items as $item) {
+          $output .= '<li>' . $item . '</li>';
+        }
+        return "<{$type}>" . $output . '<' . '/' . $type . '>';
+      }
+    </pre>
+  </div>
 </section>
 
 <section class="slide">
@@ -314,7 +324,15 @@ Functional Programming
     <li class="incremental">Functions can be a parameter</li>
     <li class="incremental">Functions can be a return type</li>
   </ul>
-  <p>Example of first class anon function in PHP.</p>
+
+  <div class="incremental">
+    <pre class="brush:php">
+      $function = function($value) {
+        return $value * 5;
+      };
+      $function($a);
+    </pre>
+  </div>
 </section>
 
 <section class="slide">
@@ -334,7 +352,16 @@ Functional Programming
     <li class="incremental">Function that calls itself</li>
     <li class="incremental">Can replace loops</li>
   </ul>
-  <p>Example of recursive function in PHP.</p>
+  <div class="incremental">
+    <pre class="brush:php">
+      function factorial($a) {
+        if ($a == 1) {
+          return 1;
+        }
+        return $a * factorial($a - 1);
+      }
+    </pre>
+  </div>
 </section>
 
 <section class="slide">
@@ -347,7 +374,30 @@ Functional Programming
 
 <section class="slide">
   <h1>Put it all together</h1>
-  <p>Fibonacci sequence in PHP</p>
+  <h2>The Fibonacci series</h2>
+  <div class="incremental">
+    <pre class="brush:php">
+      function fibonacci($a) {
+        if ($a == 0) {
+          return 0;
+        }
+        if ($a == 1) {
+          return 0;
+        }
+        return fibonacci($a - 1) + fibonacci($a - 2);
+      }
+
+      $fib = fibonacci(5);
+    </pre>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="vcenter">
+    <h2>Imperative Programming is following a recipe for a cake</h2>
+    <h2 style="margin-top: 1em">Procedural Programming is singing a song with a refrain</h2>
+    <h2 style="margin-top: 1em">Functional Programming is a spreadsheet with formulas</h2>
+  </div>
 </section>
 
 <section class="slide">
@@ -378,7 +428,7 @@ Functional Programming
   <h1>Anonymous functions</h1>
   <pre class="brush:php">
 $find_pair = function ($card1, $card2) {
-  return ($card1 == $card2);
+  return ($card1->value == $card2->value);
 };
 
 $is_pair = $find_pair('2H', '8D');
@@ -389,32 +439,33 @@ $is_pair = $find_pair('2H', '8D');
     <pre class="brush:php">
 class FindPair {
   public function __invoke($card1, $card2) {
-    return ($card1 == $card2);
+    return ($card1->value == $card2->value);
   }
 }
 
 $find_pair = new FindPair();
-$is_pair = $find_pair('2H', '8D');
+$is_pair = $find_pair(new Card('2H'), new Card('8D'));
     </pre>
   </div>
 </section>
 
-
 <section class="slide">
   <h1>Closures</h1>
   <pre class="brush:php">
-$wild = '5H';
+$wild = new Card('5H');
 $find_pair = function ($card1, $card2) use ($wild) {
-  return ($card1 == $card2 || $wild == $card1 || $wild == $card2);
+  return ($card1->value == $card2->value
+          || $wild->value == $card1->value && $wild->suit == $card1->suit
+          || $wild->value == $card2->value && $wild->suit == $card2->suit);
 };
 
-$is_pair = $find_pair('2H', '8D');
+$is_pair = $find_pair(new Card('2H'), new Card('8D'));
   </pre>
 
   <div class="incremental">
     <div style="text-align: center;">==</div>
     <pre class="brush:php">
-$wild = '5H';
+$wild = new Card('5H');
 class FindPair {
   protected $wild;
 
@@ -423,19 +474,36 @@ class FindPair {
   }
 
   public function __invoke($card1, $card2) {
-    return ($card1 == $card2
-            || $this->wild == $card1
-            || $this->wild == $card2);
+  return ($card1->value == $card2->value
+          || $this->wild->value == $card1->value && $this->wild->suit == $card1->suit
+          || $this->wild->value == $card2->value && $this->wild->suit == $card2->suit);
   }
 }
 
 $find_pair = new FindPair($wild);
-$is_pair = $find_pair('2H', '8D');
-
+$is_pair = $find_pair(new Card('2H'), new Card('8D'));
     </pre>
   </div>
 </section>
 
+<section class="slide">
+  <h1>First-class functions in action</h1>
+  <pre class="brush:php">
+$wild = new Card('5H');
+
+$is_wild = function($card) use ($wild) {
+  return $wild->value == $card->value && $wild->suit == $card->suit
+}
+
+$find_pair = function ($card1, $card2) use ($is_wild) {
+  return ($card1->value == $card2->value
+          || $is_wild($card1)
+          || $is_wild($card2));
+};
+
+$is_pair = $find_pair(new Card('2H'), new Card('8D'));
+  </pre>
+</section>
 
 <section class="slide">
   <h1>Delayed execution</h1>
