@@ -17,4 +17,4 @@ information.
 The contents of /src contain the Slippy code, and are (c) Jordi Boggiano.
 
 The slides themselves are (c) Larry Garfield, and released Creative Commons
-Attribution Share-Alike.
+Attribution Share-Alike Non-Commercial.
