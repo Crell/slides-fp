@@ -87,12 +87,9 @@
   <img style="position: absolute; top: 150px; left: 20px;" class="incremental" src="images/sites/marketplace-1.jpg" />
 </section>
 
-<section class="slide">
-  <div class="vcenter">
-    <h1>Warning, hard core geek action</h1>
-    <h2>Please pardon the nerd</h2>
-  </div>
-  Picture: something nerdy? Steal from Webchick.
+<section class="slide" data-background="images/pocket-protector.jpg" data-credit="http://www.flickr.com/photos/iampeas/2640096189">
+  <h1 style="color: White;">Warning, hard core geek action</h1>
+  <h2 style="color: White;">Please pardon the nerd</h2>
 </section>
 
 <section class="slide" data-background="images/drupal-delorean.jpg" data-credit="http://webchick.net/drupal-8-slides">
@@ -653,6 +650,30 @@ $values = array_map($adder, $array);
   </pre>
 </section>
 
+<section class="slide">
+  <h1>Memoization</h1>
+  <ul>
+    <li class="incremental">Fancy name for result caching</li>
+    <li class="incremental">Pure functions are pure: Same I, same O</li>
+    <li class="incremental">Drupal does this</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h1>Memoization</h1>
+  <pre class="brush:php">
+function expensive($key) {
+  static $keys = array();
+
+  if (empty($keys[$key])) {
+    $keys[$key] = /* some expensive operation */
+  }
+
+  return $keys[$key];
+}
+  </pre>
+</section>
+
 
 <section class="slide">
   <h1>Memoization</h1>
@@ -670,7 +691,7 @@ print "Result: " . $factorial(4) . PHP_EOL;
   </pre>
 
   <div class="incremental">
-    <pre class="brush:php">
+    <pre class="brush:text">
 Called function with 3
 Called function with 2
 Called function with 1
@@ -707,7 +728,7 @@ print "Result: " . $factorial(4) . PHP_EOL;
   </pre>
 
   <div class="incremental">
-    <pre class="brush:php">
+    <pre class="brush:text">
 Called function with 3
 Called function with 2
 Called function with 1
