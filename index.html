@@ -515,7 +515,6 @@ $conn->query('...');
   <div style="text-align: center; margin-top: 2em;" class="incremental">See also: <a href="http://pimple.sensiolabs.org/">Pimple</a></div>
 </section>
 
-
 <section class="slide">
   <h1>Lexical scoping</h1>
   <h3>Lame...</h3>
@@ -558,11 +557,30 @@ function something_important(array $arr, $factor) {
   <div style="text-align: center; margin-top: 1em;" class="incremental">Especially useful for <code>preg_replace_callback()</code></div>
 </section>
 
+<section class="slide">
+  <h1>Drupal example</h1>
+  <pre class="brush:php">
+  public function onKernelControllerLegacy(FilterControllerEvent $event) {
+    $request = $event->getRequest();
+    $router_item = $request->attributes->get('drupal_menu_item');
+    $controller = $event->getController();
+
+    // This BC logic applies only to functions. Otherwise, skip it.
+    if (is_string($controller) && function_exists($controller)) {
+      $new_controller = function() use ($router_item) {
+        return call_user_func_array(
+          $router_item['page_callback'],
+          $router_item['page_arguments']);
+      };
+      $event->setController($new_controller);
+    }
+  }
+  </pre>
+</section>
+
 <section class="slide" data-background="images/curry-food.jpg" data-credit="http://www.flickr.com/photos/hermitsmoores/4617145189">
   <h1 class="vcenter">Currying</h1>
 </section>
-
-
 
 <section class="slide">
   <h1>Haskell Curry</h1>
@@ -572,7 +590,6 @@ function something_important(array $arr, $factor) {
     <h2><a href="http://en.wikipedia.org/wiki/Haskell_Curry">Yet another</a> crazy smart mathematician</h2>
   </div>
 </section>
-
 
 <section class="slide">
   <h1>Currying</h1>
