@@ -49,14 +49,14 @@
   <div style="background-color: wheat; margin-top: 60%; padding: 0.25em;">
     <h1 style="">Functional PHP</h1>
     <h2>by Larry Garfield</h2>
-    <h2>Tuesday 21 August 2012</h2>
+    <h2>February 2013</h2>
   </div>
 </section>
 
 <div class="footer">
   <span class="right"><a href="http://www.garfieldtech.com/">http://www.garfieldtech.com/</a></span>
-  <span style="text-align: center">DrupalCon Munich 2012</span>
-  <span class="left"><a href="http://munich2012.drupal.org/">http://munich2012.drupal.org/</a></span>
+  <span style="text-align: center">Sunshine PHP 2013</span>
+  <span class="left"><a href="http://sunshinephp.com/">http://sunshinephp.com/</a></span>
   <hr class="defloat" />
 </div>
 
@@ -69,9 +69,9 @@
   <ul>
     <li>Senior Architect, Palantir.net</li>
     <li>Drupal Association Advisor</li>
-    <li>Web Services & Context Initiative Owner</li>
+    <li>Drupal Web Services Initiative Lead</li>
     <li>Co-Author,<br /><em>Drupal 7 Module Development</em>,<br />Packt Publishing</li>
-    <li>Architectural Gadfly</li>
+    <li>Software design pedant</li>
     <li>Nerf Gunslinger</li>
   </ul>
 
@@ -251,7 +251,7 @@
 
   <div class="incremental">
     <pre class="brush:php">
-      function theme_list($items, $type = 'ul') {
+      function theme_list(array $items, $type = 'ul') {
         $output = '';
         foreach ($items as $item) {
           $output .= '<li>' . $item . '</li>';
@@ -463,7 +463,7 @@ $is_pair = $find_pair(new Card('2H'), new Card('8D'));
 $wild = new Card('5H');
 
 $is_wild = function($card) use ($wild) {
-  return $wild->value == $card->value && $wild->suit == $card->suit
+  return $wild->value == $card->value && $wild->suit == $card->suit;
 }
 
 $find_pair = function ($card1, $card2) use ($is_wild) {
@@ -499,7 +499,7 @@ $container = new Container();
 $container->conn = function($c) {
   return new DatabaseConnection($c->conn_info);
 };
-$container->conn_info = function() { return array('user' => 'me', 'pass' => 'hi'); };
+$container->conn_info = function() { return ['user' => 'me', 'pass' => 'hi']; };
 
 $conn = $container->conn;
 $conn->query('...');
@@ -555,7 +555,7 @@ function something_important(array $arr, $factor) {
 </section>
 
 <section class="slide">
-  <h1>Drupal example</h1>
+  <h1>Drupal example - Persisting Context</h1>
   <pre class="brush:php">
   public function onKernelControllerLegacy(FilterControllerEvent $event) {
     $request = $event->getRequest();
@@ -655,7 +655,7 @@ $values = array_map($adder, $array);
   <ul>
     <li class="incremental">Fancy name for result caching</li>
     <li class="incremental">Pure functions are pure: Same I, same O</li>
-    <li class="incremental">Drupal does this</li>
+    <li class="incremental">You've probably done this before...</li>
   </ul>
 </section>
 
