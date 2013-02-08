@@ -45,11 +45,12 @@
   </head>
   <body>
 
-<section class="slide" id="session-title" data-background="images/first-slide.png">
-  <div style="background-color: wheat; margin-top: 60%; padding: 0.25em;">
+<section class="slide" id="session-title">
+  <div class="vcenter">
     <h1 style="">Functional PHP</h1>
-    <h2>by Larry Garfield</h2>
-    <h2>February 2013</h2>
+    <br />
+    <h1>by Larry Garfield</h1>
+    <h1>8 February 2013</h1>
   </div>
 </section>
 
@@ -71,6 +72,7 @@
     <li>Drupal Association Advisor</li>
     <li>Drupal Web Services Initiative Lead</li>
     <li>Co-Author,<br /><em>Drupal 7 Module Development</em>,<br />Packt Publishing</li>
+    <li>Adjunct Professor, DePaul University</li>
     <li>Software design pedant</li>
     <li>Nerf Gunslinger</li>
   </ul>
@@ -267,7 +269,7 @@
   <ul>
     <li class="incremental">Easy testability</li>
     <li class="incremental">Thread-safe</li>
-    <li class="incremental">Self-evident</li>
+    <li class="incremental">Self-evident <span class="incremental" style="font-style: italic;">(No spooky-action-at-a-distance)</span></li>
     <li class="incremental">Idempotent</li>
   </ul>
 </section>
@@ -497,9 +499,9 @@ class Container {
     <pre class="brush:php">
 $container = new Container();
 $container->conn = function($c) {
-  return new DatabaseConnection($c->conn_info);
+  return new DatabaseConnection($c->info);
 };
-$container->conn_info = function() { return ['user' => 'me', 'pass' => 'hi']; };
+$container->info = function() { return ['user'=>'me', 'pass'=>'hi']; };
 
 $conn = $container->conn;
 $conn->query('...');
@@ -879,13 +881,11 @@ Result: 24
   </div>
 </section>
 
-<section class="slide" data-background="images/last-slide.png">
-
-  <div class="vcenter" style="background-color: wheat;">
-    <h1>What did you think?</h1>
-    <h2 style="margin-top: 1em;">Locate this session on the DrupalCon Munich website</h2>
-    <h3 style="margin-top: 1em; text-align: center;"><a href="http://munich2012.drupal.org/program/sessions/functional-php">http://munich2012.drupal.org/program/sessions/functional-php</a></h3>
-    <h2 style="margin-top: 1em;">Thank you!</h2>
+<section class="slide">
+  <div class="vcenter">
+    <h1>Questions?</h1>
+    <h2>Tell me how I did!</h2>
+    <h2><a href="http://joind.in/7999">http://joind.in/7999</a></h2>
   </div>
 </section>
 
